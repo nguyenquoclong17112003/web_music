@@ -1,0 +1,115 @@
+@media (max-width: 739px) {
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  .container__heading {
+    text-align: center;
+    color: crimson;
+    font-weight: bold;
+    margin-top: 28px;
+  }
+
+  .container__heading-desc {
+    text-align: center;
+    margin-top: 13px;
+    font-size: 23px;
+  }
+  html {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .cd-thumb {
+    padding-top: 60%;
+    border-radius: 50%;
+    margin: 32px auto;
+    width: 61%;
+  }
+
+  .control {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .icon-video {
+    font-size: 50px;
+    color: #ea1b4b;
+  }
+
+  .icon-back,
+  .icon-next {
+    font-size: 20px;
+    color: #5d5d5d;
+  }
+
+  .icon-random,
+  .icon-reload {
+    font-size: 20px;
+    color: #5d5d5d;
+  }
+
+  .progress {
+    margin-top: 35px;
+    width: 93%;
+    height: 7px;
+    margin-left: 12px;
+    -webkit-appearance: none;
+    background-color: #d9d9d9;
+  }
+  .progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 7px;
+    width: 15px;
+    background: #e55579;
+  }
+  .play-music {
+    background-color: #f5f5f5;
+    margin-top: 510px;
+    padding-top: 1px;
+    padding-bottom: 19px;
+  }
+  .music_item-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 30px;
+  }
+  .music_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .music_list {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+    border-radius: 8px;
+    width: 93%;
+    padding: 9px 0;
+    margin-left: 12px;
+    list-style: none;
+    margin-top: 22px;
+  }
+  .group_text {
+    padding: 0 26px;
+    margin-right: auto;
+  }
+  .music_item-still {
+    margin-right: 30px;
+    font-size: 22px;
+  }
+  .music_item-singer {
+    color: #7a7676;
+    margin-top: 3px;
+  }
+
+  .Container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    background-color: #fff;
+  }
+}

@@ -7,6 +7,11 @@ const cd = $(".cd");
 const playVideo = $(".control__video");
 const playMusic = $(".icon-video");
 const playPause = $(".icon-pause");
+const inputRange = $(".progress");
+const nextBtn = $(".control__next");
+const backBtn = $(".control__back");
+const randomBtn = $(".icon-random");
+const reloadBtn = $(".icon-reload");
 
 /*1. Render song
   2. Scroll top
@@ -21,41 +26,42 @@ const playPause = $(".icon-pause");
 */
 
 const app = {
+  isRandom: false,
   isPlay: false,
   currentIndex: 0,
   songs: [
     {
-      name: "Nevada",
-      singer: "Vicetone",
-      path: "./music/Em-La-Ke-Dang-Thuong-Phat-Huy-T4.mp3",
+      name: "Bigcityboi",
+      singer: "Binz",
+      path: "./music/bigcity.mp3",
       image: "./img/nhung-cau-rap-hay-cua-binz-1.jpg",
     },
     {
       name: "Short Skirt",
       singer: "Niz, Trần Huyền Diệp",
-      path: "./music/Em-La-Ke-Dang-Thuong-Phat-Huy-T4.mp3",
+      path: "./music/shortkids.mp3",
       image: "./img/bai2.jpg",
     },
     {
-      name: "Bigcityboi",
-      singer: "Binz",
-      path: "./music/Em-La-Ke-Dang-Thuong-Phat-Huy-T4.mp3",
-      image: "./img/bai3.jpeg",
+      name: "Vỡ",
+      singer: "Đức Phúc",
+      path: "./music/ssss.mp3",
+      image: "./img/vo.jpg",
     },
     {
-      name: "247 Cuộc gọi ",
-      singer: "Kidz",
-      path: "./music/Em-La-Ke-Dang-Thuong-Phat-Huy-T4.mp3",
-      image: "./img/bai4.jpeg",
+      name: "Yêu Thương Ngày Đó",
+      singer: "SOOBIN",
+      path: "./music/yeuthuongngaydo.mp3",
+      image: "./img/yeuthuongngaydo.jpg",
     },
     {
-      name: "247 Cuộc gọi ",
-      singer: "Kidz",
-      path: "./music/Em-La-Ke-Dang-Thuong-Phat-Huy-T4.mp3",
-      image: "./img/bai4.jpeg",
+      name: "Lạc Nhau Có Phải Muôn Đời ",
+      singer: "ERIK",
+      path: "./music/lacnhaucophaimuondoi.mp3",
+      image: "./img/lacnhau.jpg",
     },
     {
-      name: "247 Cuộc gọi ",
+      name: "Không Cần Phải Hứa Đâu Em",
       singer: "Kidz",
       path: "./music/Em-La-Ke-Dang-Thuong-Phat-Huy-T4.mp3",
       image: "./img/bai4.jpeg",
@@ -93,17 +99,28 @@ const app = {
     });
   },
   handleEvents: function () {
+    // Xử lý CD quay
+    const cdRotate = cdThumb.animate(
+      [
+        {
+          transform: "rotate(360deg)",
+        },
+      ],
+      {
+        iterations: Infinity,
+        duration: 10000,
+      }
+    );
+    cdRotate.pause();
+
     // Xử lí phóng to / thu nhỏ CD
     const cdWidth = cd.offsetWidth;
     document.onscroll = function () {
       const scroolTop = window.scrollY || document.documentElement.scrollTop;
       const newCd = cdWidth - scroolTop;
 
-      if (newCd > 25) {
-        cd.style.width = newCd + "px";
-      } else {
-        cd.style.width = 0;
-      }
+      cd.style.width = newCd > 0 ? newCd + "px" : 0;
+
       cd.style.opacity = newCd / cdWidth;
     };
 
@@ -120,11 +137,61 @@ const app = {
       playMusic.classList.remove("playing");
       playPause.classList.remove("playing");
       app.isPlay = true;
+      cdRotate.play();
     };
     audio.onpause = function () {
       app.isPlay = false;
       playMusic.classList.add("playing");
       playPause.classList.add("playing");
+      cdRotate.pause();
+    };
+
+    // Khi tiến độ bài hát được thay đổi
+    audio.ontimeupdate = function () {
+      if (audio.duration) {
+        const inputPercent = Math.floor(
+          (audio.currentTime / audio.duration) * 100
+        );
+        inputRange.value = inputPercent;
+      }
+    };
+
+    // Xử lí khi tua
+    inputRange.onchange = function (e) {
+      const seekTime = (audio.duration / 100) * e.target.value;
+      audio.currentTime = seekTime;
+    };
+
+    // Xử lí khi Next Bài hát
+    nextBtn.onclick = function () {
+      if (app.isRandom) {
+        app.playRandomSong();
+      } else {
+        app.nextSong();
+      }
+      audio.play();
+    };
+
+    // Xử lí khi Back Bài hát
+    backBtn.onclick = function () {
+      if (app.isRandom) {
+        app.playRandomSong();
+      } else {
+        app.backSong();
+      }
+      audio.play();
+    };
+
+    // Xử lí khi random Song
+    randomBtn.onclick = function () {
+      app.isRandom = !app.isRandom;
+      randomBtn.classList.toggle("active", app.isRandom);
+    };
+
+    // Xử lí khi song end
+    audio.onended = function () {
+      app.nextSong();
+      audio.play();
     };
   },
 
@@ -132,6 +199,28 @@ const app = {
     heading.textContent = this.CurrentSong.name;
     cdThumb.style.backgroundImage = `url('${this.CurrentSong.image}')`;
     audio.src = this.CurrentSong.path;
+  },
+  backSong: function () {
+    this.currentIndex--;
+    if (this.currentIndex < 0) {
+      this.currentIndex = this.songs.length - 1;
+    }
+    this.loadCurrentSong();
+  },
+  nextSong: function () {
+    this.currentIndex++;
+    if (this.currentIndex >= this.songs.length) {
+      this.currentIndex = 0;
+    }
+    this.loadCurrentSong();
+  },
+  playRandomSong: function () {
+    let newSong;
+    do {
+      newSong = Math.floor(Math.random() * this.songs.length);
+    } while (newSong === this.currentIndex);
+    this.currentIndex = newSong;
+    this.loadCurrentSong();
   },
   start: function () {
     // Định nghĩa các thuộc tính cho object

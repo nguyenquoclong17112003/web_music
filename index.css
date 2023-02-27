@@ -37,6 +37,9 @@
     justify-content: space-around;
     align-items: center;
   }
+  .icon-random.active {
+    color: red;
+  }
   .icon-video {
     display: block;
     font-size: 50px;

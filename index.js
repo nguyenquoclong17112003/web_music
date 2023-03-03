@@ -26,6 +26,7 @@ const reloadBtn = $(".icon-reload");
 */
 
 const app = {
+  isRepeat: false,
   isRandom: false,
   isPlay: false,
   currentIndex: 0,
@@ -61,17 +62,17 @@ const app = {
       image: "./img/lacnhau.jpg",
     },
     {
-      name: "Không Cần Phải Hứa Đâu Em",
-      singer: "Kidz",
-      path: "./music/Em-La-Ke-Dang-Thuong-Phat-Huy-T4.mp3",
-      image: "./img/bai4.jpeg",
+      name: "Chiều Hôm Âý",
+      singer: "Jaykii",
+      path: "./music/chieuhomay.mp3",
+      image: "./img/chieuhomay.jpg",
     },
   ],
 
   render: function () {
-    const htmls = this.songs.map((song) => {
+    const htmls = this.songs.map((song, index) => {
       return `
-      <ul class="music_list">
+      <ul class="music_list ${index === app.currentIndex ? "active" : ""}">
       <li class="music_item">
         <img
           src="${song.image}"
@@ -170,6 +171,7 @@ const app = {
         app.nextSong();
       }
       audio.play();
+      app.render();
     };
 
     // Xử lí khi Back Bài hát
@@ -180,6 +182,7 @@ const app = {
         app.backSong();
       }
       audio.play();
+      app.render();
     };
 
     // Xử lí khi random Song
@@ -188,10 +191,20 @@ const app = {
       randomBtn.classList.toggle("active", app.isRandom);
     };
 
+    // Xử lí khi phát lại một song
+    reloadBtn.onclick = function () {
+      app.isRepeat = !app.isRepeat;
+      this.classList.toggle("active", app.isRepeat);
+    };
+
     // Xử lí khi song end
     audio.onended = function () {
-      app.nextSong();
-      audio.play();
+      if (app.isRepeat) {
+        audio.play();
+      } else {
+        app.nextSong();
+        audio.play();
+      }
     };
   },
 

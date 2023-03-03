@@ -9,6 +9,7 @@
     color: crimson;
     font-weight: bold;
     margin-top: 28px;
+    font-size: 23px;
   }
 
   .container__heading-desc {
@@ -27,6 +28,16 @@
     width: 100%;
   }
 
+  .music_list.active {
+    background-color: #f8dbdb;
+    box-shadow: 0 0 10px rgb(235 95 100);
+    color: #e55579;
+  }
+
+  .music_list.active .music_item-singer {
+    color: #e55579;
+  }
+
   .cd {
     width: 205px;
     margin: auto;
@@ -39,6 +50,10 @@
   }
   .icon-random.active {
     color: red;
+  }
+
+  .icon-reload.active {
+    color: #2caa41;
   }
   .icon-video {
     display: block;
@@ -62,13 +77,24 @@
   .icon-back,
   .icon-next {
     font-size: 20px;
-    color: #5d5d5d;
+    color: #423e80;
+  }
+
+  /* .container_header {
+    position: relative;
+  } */
+
+  .icon-headphone {
+    position: absolute;
+    width: 10%;
+    right: 4%;
+    top: 3%;
   }
 
   .icon-random,
   .icon-reload {
     font-size: 20px;
-    color: #5d5d5d;
+    color: #423e80;
   }
 
   .progress {
@@ -77,7 +103,7 @@
     height: 7px;
     margin-left: 12px;
     -webkit-appearance: none;
-    background-color: #d9d9d9;
+    background-color: #ff9b9b;
   }
   .progress::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -87,7 +113,7 @@
   }
   .play-music {
     background-color: #f5f5f5;
-    margin-top: 510px;
+    margin-top: 492px;
     padding-top: 1px;
     padding-bottom: 19px;
   }
@@ -132,6 +158,7 @@
     right: 0;
     top: 0;
     z-index: 1;
-    background-color: #fff;
+    background: linear-gradient(45deg, #ffb5ae, #fae1c7, #fbc192);
+    padding-bottom: 38px;
   }
 }

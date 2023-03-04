@@ -38,6 +38,10 @@
     color: #e55579;
   }
 
+  .music_list:active {
+    opacity: 0.5;
+  }
+
   .cd {
     width: 205px;
     margin: auto;

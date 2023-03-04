@@ -12,6 +12,7 @@ const nextBtn = $(".control__next");
 const backBtn = $(".control__back");
 const randomBtn = $(".icon-random");
 const reloadBtn = $(".icon-reload");
+const playList = $(".play-music");
 
 /*1. Render song
   2. Scroll top
@@ -67,12 +68,20 @@ const app = {
       path: "./music/chieuhomay.mp3",
       image: "./img/chieuhomay.jpg",
     },
+    {
+      name: "Vỡ Tan",
+      singer: "Hiền Hồ, Trịnh Thăng Bình",
+      path: "./music/votan.mp3",
+      image: "./img/votan.jpg",
+    },
   ],
 
   render: function () {
     const htmls = this.songs.map((song, index) => {
       return `
-      <ul class="music_list ${index === app.currentIndex ? "active" : ""}">
+      <ul  class="music_list ${
+        index === app.currentIndex ? "active" : ""
+      }" data-index = ${index}>
       <li class="music_item">
         <img
           src="${song.image}"
@@ -89,7 +98,7 @@ const app = {
       </li>
     </ul>`;
     });
-    $(".play-music").innerHTML = htmls.join(" ");
+    playList.innerHTML = htmls.join(" ");
   },
 
   defineProperty: function () {
@@ -172,6 +181,7 @@ const app = {
       }
       audio.play();
       app.render();
+      app.scrollToActiveSong();
     };
 
     // Xử lí khi Back Bài hát
@@ -183,6 +193,7 @@ const app = {
       }
       audio.play();
       app.render();
+      app.scrollToActiveSong();
     };
 
     // Xử lí khi random Song
@@ -206,6 +217,33 @@ const app = {
         audio.play();
       }
     };
+
+    // Xử lí khi active song
+    playList.onclick = function (e) {
+      const songElement = e.target.closest(".music_list:not(.active");
+      if (songElement || e.target.closest(".music_item-still")) {
+        app.currentIndex = Number(songElement.dataset.index);
+        app.loadCurrentSong();
+        app.render();
+        audio.play();
+      }
+    };
+  },
+
+  scrollToActiveSong: function () {
+    setTimeout(function () {
+      if (app.currentIndex) {
+        $(".music_list.active").scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      } else {
+        $(".music_list.active").scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }, 500);
   },
 
   loadCurrentSong: function () {

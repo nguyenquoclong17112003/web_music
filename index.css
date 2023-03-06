@@ -90,7 +90,7 @@
 
   .icon-headphone {
     position: absolute;
-    width: 10%;
+    width: 10.5%;
     right: 4%;
     top: 3%;
   }
@@ -164,5 +164,26 @@
     z-index: 1;
     background: linear-gradient(45deg, #ffb5ae, #fae1c7, #fbc192);
     padding-bottom: 38px;
+  }
+  .volume {
+    position: absolute;
+    display: inline-block;
+    top: 1.9%;
+    left: 3%;
+    width: 12.5%;
+  }
+  .icon-volume-mute {
+    display: none;
+  }
+  .icon-volume-mute.active {
+    display: block;
+    width: 100%;
+  }
+  .icon-volume-up.active {
+    display: none;
+  }
+  .icon-volume-up {
+    display: block;
+    width: 100%;
   }
 }

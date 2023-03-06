@@ -13,6 +13,9 @@ const backBtn = $(".control__back");
 const randomBtn = $(".icon-random");
 const reloadBtn = $(".icon-reload");
 const playList = $(".play-music");
+const volume = $(".volume");
+const volumeUp = $(".icon-volume-up");
+const volumeMute = $(".icon-volume-mute");
 
 /*1. Render song
   2. Scroll top
@@ -27,6 +30,7 @@ const playList = $(".play-music");
 */
 
 const app = {
+  isVolume: false,
   isRepeat: false,
   isRandom: false,
   isPlay: false,
@@ -226,6 +230,19 @@ const app = {
         app.loadCurrentSong();
         app.render();
         audio.play();
+      }
+    };
+    volume.onclick = function () {
+      if (app.isVolume) {
+        audio.volume = 0;
+        app.isVolume = false;
+        volumeUp.classList.add("active");
+        volumeMute.classList.add("active");
+      } else {
+        audio.volume = 1;
+        app.isVolume = true;
+        volumeMute.classList.remove("active");
+        volumeUp.classList.remove("active");
       }
     };
   },
